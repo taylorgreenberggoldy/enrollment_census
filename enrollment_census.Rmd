@@ -32,3 +32,20 @@ enrollment_data
   
 ```
 
+
+```{r}
+enrollment_data <- read_excel("class_enrollment_summary_by_term2.18.20.xlsx", skip = 3) %>%
+  clean_names() %>%
+  filter(!is.na(course_name)) %>%
+  filter(course_department == "Government") %>%
+  select(course_title, course_name, u_grad) %>%
+  arrange(-u_grad) %>%
+  slice(1:5) %>%
+  gt()
+  
+enrollment_data %>%
+  group_by(course_department) %>%
+  summarize(total = sum(total)) %>%
+  arrange(desc(total))
+enrollment_data
+```
